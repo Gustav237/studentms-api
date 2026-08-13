@@ -59,11 +59,30 @@ class Student
      */
     public function emailExists(string $email, ?int $excludeId = null): bool
     {
-       //TODO: Implement this and use to
-       // check if a user already exist before creating them
-
+        $stmt = $this->db->prepare("SELECT * FROM Students WHERE email = :email");
+        $stmt->execute([':email' => $email]);
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        if($data){
+            return true;
+        }else{
+            return false;
+        }
     }
 
+    /**
+     * reset()
+     * Delete all records in the students table
+     * Returns the number of records deleted
+     * Carefull calling this function as it could clear all the data
+     * in the students' table.
+     */
+    public function reset(): int{
+        $stmt = $this->db->prepare("DELETE FROM Students");
+        $stmt->execute();
+        return $stmt->rowCount(); 
+    }
+
+    
     /**
      * create()
      * Insert a new student. Returns the newly created student's id.

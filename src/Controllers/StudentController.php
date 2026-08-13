@@ -36,10 +36,11 @@ class StudentController
         if (isset($_GET['id'])) { // /student?id=12
             $this->show((int) $_GET['id']);
             return;
-        }
+        }else{
+            $students = $this->studentModel->getAll();
+            $this->respond(200, $students);
 
-        $students = $this->studentModel->getAll();
-        $this->respond(200, $students);
+        }
     }
 
     /**
@@ -90,7 +91,35 @@ class StudentController
             $this->respond(500, $e->getMessage());
         }
     }
+        /*
+        reset()
+     * Handles: DELETE /students
+     * Reads a JSON body like:
+     * { "confirm": true/false}, so the function is implemented
+     * knowingly and not by mistake.
+     */
 
+    public function reset(){
+        $data = $this->getJsonInput();
+
+        try {
+            // var_dump($data);
+            if(empty($data)){
+                $this->respond(400, ['Success' => false,'Message'=> 'Reset failed. Confirm option Required']);  
+            }elseif($data['confirm'] !== 'true'){
+                $this->respond(400, ['Success' => false,'Message'=> 'Reset failed. Confirm option Invalid']);  
+            }
+            else{
+                $student = $this->studentModel->reset();
+                $this->respond(201, ['Success' => true, 'Message' => "{$student} records have being deleted"]);
+            }
+
+        } catch (\Throwable $e) {
+            $this->respond(500, $e->getMessage());
+        }
+    }
+
+    
     /**
      * ---------- Helper methods below ----------
      */

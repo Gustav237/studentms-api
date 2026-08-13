@@ -79,5 +79,7 @@ if($path === '/students' && $method == 'GET'){
     $studentController->index();
 }elseif($path === "/students" && $method === "POST"){
     $studentController->store();
+}elseif($path === "/students" && $method === "DELETE"){
+    $studentController->reset();
 }
 

@@ -1,4 +1,4 @@
---create a students table 
+-- create a students table 
 -- with id, 
 -- first_name, last_name, email,
 -- course, and created_at
@@ -6,7 +6,7 @@
 
 CREATE DATABASE IF NOT EXISTS studentms;
 
-USE studentms
+USE studentms;
 
 CREATE TABLE students (
     id int AUTO_INCREMENT PRIMARY NOT NULL,
